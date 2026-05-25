@@ -1,306 +1,126 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crawl Budget Intensive Care Unit (크롤 버짓 및 인프라 정밀 돌봄 ICU)</title>
-  <meta name="description" content="구글 크롤러의 동작 상태를 24시간 실시간 모니터링하고, 크롤 버짓(Crawl Budget) 누수를 밀착 간호하여 완벽한 인덱싱 환경을 보장합니다.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+  <title>크롤러 케어 - 구글 봇 정밀 검진 및 크롤 버짓 밀착 간호</title>
   <style>
+    
     :root {
-      --bg-color: #fafafa;
-      --text-color: #0f172a;
-      --accent-color: #4f46e5; /* Premium Electric Indigo */
-      --accent-glow: rgba(79, 70, 229, 0.15);
-      --muted-color: #64748b;
-      --border-color: #e2e8f0;
+      --bg: #fcf8f2;
+      --fg: #2e2522;
+      --dim: #7f5539;
+      --accent: #b76e79;
       --card-bg: #ffffff;
-      --font-swiss: 'Inter', 'Noto Sans KR', sans-serif;
-      --font-serif: 'Playfair Display', serif;
+      --border: #f5ebe0;
+      --font: 'Outfit', sans-serif;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: var(--font-swiss);
-      line-height: 1.8;
-      letter-spacing: -0.01em;
-    }
-    .header-wrapper {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(250, 250, 250, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-color);
-      padding: 0 24px;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font);
+      margin: 0;
+      padding: 0;
+      line-height: 1.7;
     }
     .container {
-      max-width: 1000px;
+      max-width: 900px;
       margin: 0 auto;
+      padding: 3rem 1.5rem;
     }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 0;
-      flex-wrap: wrap;
-      gap: 16px;
+    .hero {
+      padding: 4rem 3rem;
+      background: linear-gradient(135deg, #fcf8f2, #f5ebe0);
+      border-radius: 32px 8px;
+      text-align: center;
+      margin-bottom: 3rem;
+      box-shadow: 0 10px 30px rgba(127, 85, 57, 0.03);
     }
-    .logo {
-      font-family: var(--font-serif);
-      font-size: 1.35rem;
-      font-weight: 700;
-      text-decoration: none;
-      color: var(--text-color);
-      position: relative;
-      padding-left: 12px;
+    .hero-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--fg);
+      margin-bottom: 0.8rem;
     }
-    .logo::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 15%;
-      height: 70%;
-      width: 4px;
-      background-color: var(--accent-color);
-      border-radius: 2px;
-    }
-    nav { display: flex; gap: 24px; }
-    nav a {
-      color: var(--muted-color);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 600;
-      transition: all 0.2s ease;
-      position: relative;
-      padding: 4px 0;
-    }
-    nav a:hover { color: var(--accent-color); }
-    nav a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background-color: var(--accent-color);
-      transition: width 0.2s ease;
-    }
-    nav a:hover::after { width: 100%; }
-    
-    .main-body {
-      padding: 60px 24px;
-    }
-    .hero-image {
-      width: 100%;
-      height: 380px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin-bottom: 48px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.06);
-      border: 1px solid var(--border-color);
-    }
-    .meta-tag {
-      font-size: 0.75rem;
-      font-family: monospace;
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--dim);
       text-transform: uppercase;
-      color: var(--accent-color);
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      margin-bottom: 16px;
-      display: inline-block;
-      background: var(--accent-glow);
-      padding: 4px 12px;
-      border-radius: 4px;
+      letter-spacing: 0.1em;
     }
-    h1 {
-      font-family: var(--font-serif);
-      font-size: 2.8rem;
-      font-weight: 700;
-      line-height: 1.25;
-      letter-spacing: -0.02em;
-      color: var(--text-color);
-      margin-bottom: 32px;
-    }
-    .content {
-      font-size: 1.12rem;
-      color: var(--text-color);
-      margin-bottom: 60px;
-      font-weight: 300;
-      text-align: justify;
-    }
-    .content p { margin-bottom: 24px; }
-    .juice-link {
-      color: var(--accent-color);
-      text-decoration: none;
-      border-bottom: 2px solid var(--accent-color);
-      font-weight: 700;
-      transition: all 0.25s ease;
-      padding: 0 4px;
-      display: inline-block;
-    }
-    .juice-link:hover {
-      background-color: var(--accent-color);
-      color: white;
-      border-radius: 4px;
-      transform: translateY(-1px);
-    }
-    
-    .posts-section {
-      border-top: 1px solid var(--border-color);
-      padding-top: 60px;
-      margin-top: 60px;
-    }
-    .posts-section h2 {
-      font-family: var(--font-serif);
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 40px;
-      letter-spacing: -0.01em;
-    }
-    .post-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 36px;
-    }
-    @media (min-width: 768px) {
-      .post-grid { grid-template-columns: 1fr 1fr; }
-    }
-    .post-card {
+    .card {
       background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid var(--border);
+      border-radius: 20px 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(127, 85, 57, 0.02);
     }
-    .post-card:hover {
-      box-shadow: 0 15px 35px rgba(0,0,0,0.06), 0 0 0 2px var(--accent-color);
-      transform: translateY(-4px);
+    .card h2 {
+      margin-top: 0;
+      color: var(--dim);
+      font-size: 1.35rem;
     }
-    .card-thumb {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-bottom: 1px solid var(--border-color);
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
     }
-    .card-body {
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-    .post-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 12px;
-      line-height: 1.45;
-      font-weight: 700;
-    }
-    .post-card h3 a {
-      color: var(--text-color);
+    .link-t1 {
+      color: var(--accent);
       text-decoration: none;
-      transition: color 0.2s ease;
+      border-bottom: 1px dashed var(--accent);
+      font-weight: bold;
     }
-    .post-card h3 a:hover { color: var(--accent-color); }
-    .post-card p {
-      font-size: 0.95rem;
-      color: var(--muted-color);
-      font-weight: 300;
-      line-height: 1.65;
-    }
-    
     footer {
-      border-top: 1px solid var(--border-color);
-      padding: 40px 24px;
-      margin-top: 80px;
-      background: #f8fafc;
-    }
-    .footer-container {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-      color: var(--muted-color);
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      text-align: center;
+      color: var(--dim);
       font-size: 0.85rem;
     }
-    footer a { color: var(--muted-color); text-decoration: none; font-weight: 500; }
-    footer a:hover { color: var(--accent-color); }
+      
+    .post-link {
+      display: block;
+      color: var(--accent);
+      text-decoration: none;
+      margin-bottom: 0.8rem;
+      font-size: 1.05rem;
+    }
+    .post-link:hover {
+      text-decoration: underline;
+    }
+    .testimonial-box {
+      border-left: 3px solid var(--accent);
+      background: rgba(255, 255, 255, 0.02);
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .reviewer-name {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--dim);
+      margin-top: 0.5rem;
+      text-align: right;
+    }
   </style>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Crawl Budget Intensive Care Unit (크롤 버짓 및 인프라 정밀 돌봄 ICU)",
-    "url": "https://nurse-kyujin.online/",
-    "description": "구글 크롤러의 동작 상태를 24시간 실시간 모니터링하고, 크롤 버짓(Crawl Budget) 누수를 밀착 간호하여 완벽한 인덱싱 환경을 보장합니다."
-  }
-  </script>
 <meta property="og:image" content="og-image.svg">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
-  <div class="header-wrapper">
-    <div class="container">
-      <header>
-        <a href="./" class="logo" id="logo-main-nav">Crawl Budget Intensive Care Unit</a>
-        <nav>
-      <a href="./" id="nav-item-home">홈 (Home)</a>
-      <a href="posts/editorial-01/" id="nav-item-col">칼럼 (Column)</a>
-      <a href="posts/editorial-02/" id="nav-item-inf">인프라 (Infra)</a>
-      <a href="posts/optimization-01/" id="nav-item-seo">최적화 (SEO)</a>
-    </nav>
-      </header>
-    </div>
-  </div>
-  
-  <div class="container main-body">
-    <main>
-      <img src="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=800&auto=format&fit=crop" alt="Crawl Budget Intensive Care Unit (크롤 버짓 및 인프라 정밀 돌봄 ICU) visual header" class="hero-image">
-      <span class="meta-tag">// Core Editorial Research</span>
-      <h1>Crawl Budget Intensive Care Unit (크롤 버짓 및 인프라 정밀 돌봄 ICU)</h1>
-      <div class="content">구글 크롤러의 동작 상태를 24시간 실시간 모니터링하고, 크롤 버짓(Crawl Budget) 누수를 밀착 간호하여 완벽한 인덱싱 환경을 보장합니다.</div>
-      
-      <section class="posts-section">
-        <h2>실시간 유관 콘텐츠 가이드</h2>
-        <div class="post-grid">
-      <div class="post-card">
-        <img src="https://images.unsplash.com/photo-1516613902355-639a8093d23a?q=80&w=800&auto=format&fit=crop" alt="크롤 버짓 간호학：구글 봇의 방문 빈도와 로드 성능 모니터링 수칙" class="card-thumb">
-        <div class="card-body">
-          <h3><a href="posts/editorial-01/" id="card-link-normal-1">크롤 버짓 간호학：구글 봇의 방문 빈도와 로드 성능 모니터링 수칙</a></h3>
-          <p>구글 크롤러 봇이 우리 웹사이트를 한 번 방문할 때 훑어갈 수 있는 페이지의 총량은 제한되어 있습니다. 이를 크롤 버짓(Crawl Budget)이라 부르며, 페이지 로딩 지연이나 ...</p>
-        </div>
+  <div class="container">
+    
+      <div class="hero">
+        <h1 class="hero-title">구글 봇 정밀 검진 및 크롤 버짓 밀착 간호</h1>
+        <p class="hero-subtitle">☘️ INTEGRATED CARE &amp; RESTORATION REPORT</p>
       </div>
-      <div class="post-card">
-        <img src="https://images.unsplash.com/photo-1579684389704-a28d54c76251?q=80&w=800&auto=format&fit=crop" alt="인프라 안심 케어：웹 서버 응답속도 최적화와 필터 살균 케어" class="card-thumb">
-        <div class="card-body">
-          <h3><a href="posts/editorial-02/" id="card-link-normal-2">인프라 안심 케어：웹 서버 응답속도 최적화와 필터 살균 케어</a></h3>
-          <p>의료인 수준의 철저한 위생 관리가 IT 인프라에도 그대로 융합되어야 합니다. 서버의 불필요한 캐시 메모리를 정화하고 악성 트래픽 필터를 정기 가동하여 크롤러 봇이 안전하고 깨끗한 ...</p>
-        </div>
-      </div>
-      <div class="post-card">
-        <img src="https://images.unsplash.com/photo-1513224502586-d1e602410265?q=80&w=800&auto=format&fit=crop" alt="사이트의 기초 체력을 비약적으로 증폭하고 고품격 유입을 리드해 주는 명품 마포 셔츠룸 가격 투명성 비교 케어" class="card-thumb">
-        <div class="card-body">
-          <h3><a href="posts/optimization-01/" id="card-link-juice-1">사이트의 기초 체력을 비약적으로 증폭하고 고품격 유입을 리드해 주는 명품 마포 셔츠룸 가격 투명성 비교 케어</a></h3>
-          <p>불규칙한 검색엔진 유입 병목 현상 때문에 답답함을 겪으며, 24시간 실시간 모니터링으로 안정적인 트래픽을 주입받고픈 예비 대표님들을 위해 마르지 않는 명품 마포 셔츠룸 가격 투명성...</p>
-        </div>
-      </div>
-      <div class="post-card">
-        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop" alt="구글 크롤러 봇을 매혹하고 사이트의 신용 한도를 아낌없이 증폭해 주는 마포 셔츠룸 가격 투명성 비교 성공 분석" class="card-thumb">
-        <div class="card-body">
-          <h3><a href="posts/optimization-02/" id="card-link-juice-2">구글 크롤러 봇을 매혹하고 사이트의 신용 한도를 아낌없이 증폭해 주는 마포 셔츠룸 가격 투명성 비교 성공 분석</a></h3>
-          <p>지저분한 옛날 방식의 스팸 어뷰징을 완전히 걷어내고 구글 로봇에게 최고의 가치로 입증받기 위해 마포 셔츠룸 가격 투명성 비교 정보를 선별하시는 파트너분들을 위해, 확실한 재방문 신...</p>
-        </div>
-      </div>
-    </div>
-      
+
+    <section class="card">
+      <h2>소개 및 비전</h2>
+      <p>본 포털은 크롤러 케어와 관련해 소비자들에게 절대적으로 필요한 정보를 100% 정찰제 가격 정보와 예약 에티켓 기준으로 분석하여 서비스합니다.</p>
+      <p>구글 봇 정밀 검진 및 크롤 버짓 밀착 간호를 찾는 비즈니스 바이어나 개인 고객들이 현명하고 합리적인 조건 하에 안심하고 플레이스를 선택하실 수 있도록 가이드를 성실히 업데이트합니다.</p>
+    
 <div class="seo-visual-divider" role="separator" aria-label="구글 봇 정밀 검진 및 크롤 버짓 밀착 간호 구분선" style="margin:32px 0;text-align:center;color:#e5e5e0;font-size:0.85rem;letter-spacing:0.5em">◆ ◆ ◆</div>
 </section>
 
@@ -327,15 +147,25 @@
     <span style="font-family:sans-serif;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:#8a7355;font-weight:600">구글 봇 정밀 검진 및 크롤 버짓 밀착 간호</span>
   </div>
 </div>
-    </main>
-  </div>
-  
-  <footer>
-    <div class="footer-container">
-      <span>&copy; 2026 Crawl Budget Intensive Care Unit. All Rights Reserved.</span>
-      <a href="sitemap.xml" id="footer-sitemap-link">사이트맵 (Sitemap)</a>
+
+    
+    <!-- T2 Supporting PBN Layout Content (Links list to posts) -->
+    <div class="grid">
+      <div class="card">
+        <h2>📝 최신 전문 포스팅 목록</h2>
+        <a href="posts/minor-001.html" class="post-link">📄 [마이너 가이드] 구글 봇 정밀 검진 및 크롤 버짓 밀착 간호 실시간 만족도 분석 리포트</a>
+        <a href="posts/minor-002.html" class="post-link">📄 [비교 꿀팁] 실패를 예방하는 구글 봇 정밀 검진 및 크롤 버짓 밀착 간호 예약 시 3대 체크리스트</a>
+        <a href="posts/major-003.html" class="post-link">📄 [종합 검증] 구글 봇 정밀 검진 및 크롤 버짓 밀착 간호 완벽 비교 가이드 및 투명성 검증 (백링크 포함)</a>
+      </div>
+      <div class="card">
+        <h2>🌐 1:1 도메인 메타포 해설</h2>
+        <p>이 사이트는 로컬 예약 파이프라인의 안전성과 투명한 정보 검증을 주도하는 소셜 인프라 PBN 매칭 페이지로 작동하고 있습니다.</p>
+      </div>
     </div>
+    
+  </div>
+  <footer>
+    <p>&copy; 2026 nurse-kyujin.online. All Rights Reserved.</p>
   </footer>
 </body>
 </html>
-  
